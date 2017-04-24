@@ -1,0 +1,180 @@
+select * From Donation
+Select GetDate () Today
+Select   5 + 31/3 * 4
+select DonationAmount, DonationAmount * .3 Overhead from Donation
+
+--dateTime
+Select Year (DonationDate) as [Year] from Donation
+select * from Donation where Year (DonationDate) = 2016
+Select month (DonationDate) [Month]  from Donation
+select * from Donation where Month (DonationDate) between 2 and 4
+And Year (DonationDate) = 2016
+
+select Day (DonationDate) [Day] from donation
+
+Select DatePart(hour, DonationDate) [Hour],
+Select DatePart(Minute, DonationDate) [Minute],
+Select DatePart(Second, DonationDate) [Second]
+From Donation
+
+Select dateDiff(Day,GetDate(),'6/16/2017') DaysLeft
+Select DateAdd(SECOND,10000000000000, GetDate())
+Select DATENAME (Month, DonationDate) + ' ' +
+Cast(day (donationDate) as nvarchar (4))+
+', '+ Cast(Year(donationDate) as nvarchar(4))
+From Donation
+
+--aggreagate Funtions
+select Sum (Donationamount) Total from Donation
+select Avg (Donationamount) Average from Donation
+select Count (Donationamount) NumberofDonations from Donation
+select Max (Donationamount) Highest from Donation
+select Min (Donationamount) least from Donation
+
+select Count (Donationamount) NumberofDonations from Donation
+Where Donation
+
+<--
+Wednesday, April 12, 2017
+Select 2 Functions 
+
+--selects two--functions
+--scalar
+--Date Time functions
+--formating
+--Aggregate functions Sum, Avg, count, Max, min
+
+Use Community_Assist
+
+Select * from Donation
+--GetDate returns current date and time
+Select GetDate() today
+--math follows algebraic order of operations
+Select 5 + 30/3 * 4
+
+Select DonationAmount, DonationAmount * .3 As Overhead from Donation
+
+--DateTime
+--functions for selecting date parts
+Select Year(DonationDate)as [Year] from Donation
+
+Select * from Donation where Year(DonationDate)=2016
+Select Month(DonationDate) [Month] from Donation
+
+Select * from Donation 
+where Month(DonationDate) between 2 and 4
+And Year(DonationDate) = 2016
+
+Select Day(DonationDate) [Day] from Donation
+
+--date part will work the same as Year, Month , Day
+--but also allows you to do time
+Select DatePart(hour,DonationDate) [Hour],
+DatePart(Minute, DonationDate) [Minute],
+DatePart(Second, DonationDate) [Second]
+from Donation
+
+--Subtract one date from another
+--you have to choose the unit you want to subtract
+Select DateDiff(Day,GetDate(),'6/16/2017') DaysLeft
+--add two dates
+Select DateAdd(Second,1000000000,GetDate())
+
+--the date functions return an integer
+--to concatinate them with charater types
+--they have to be converted to character types
+--the cast function does that
+Select Datename(Month, DonationDate) + ' ' + 
+Cast(Day(DonationDate) as nvarchar(4)) + 
+', ' + cast(Year(donationDate) as nvarchar(4)) as [Date]
+from Donation
+
+--aggregate functions operate on sets of rows at a time
+Select Sum(DonationAmount) Total from Donation
+Select Avg(DonationAmount) Average from Donation
+Select Count(DonationAmount) NumberofDonations from Donation
+Select Max(DonationAmount) Highest from Donation
+Select Min(DonationAmount) Least from Donation
+
+Select Count(DonationAmount) NumberofDonations from Donation
+Where DonationAmount > 500
+
+Select Count(DonationAmount)[Count],
+Avg(DonationAmount) Average,
+Sum(donationAmount) Total
+From Donation
+
+Select * From GrantRequest
+
+--any column that is not a part of an aggregate function
+--(when a select has aggregate functions)
+--must be made part of a Group by clause
+Select GrantTypeKey, Count(GrantTypeKey)[Count], 
+Avg(GrantRequestAmount) Average, 
+Sum(GrantRequestAmount) Total
+From GrantRequest
+Group by GrantTypeKey
+
+Select Year(GrantRequestDate) [Year],
+GrantTypeKey, Count(GrantTypeKey)[Count], 
+Avg(GrantRequestAmount) Average, 
+Sum(GrantRequestAmount) Total
+From GrantRequest
+Where Year(GrantRequestDate)=2015
+Group by Year(GrantRequestDate),GrantTypeKey
+
+--Having is like where but used when
+--the criteria includes an aggregate value
+--in this case Avg
+--It always follows the Group by 
+--(the where always goes before group by)
+Select Year(GrantRequestDate) [Year],
+GrantTypeKey, Count(GrantTypeKey)[Count], 
+Avg(GrantRequestAmount) Average, 
+Sum(GrantRequestAmount) Total
+From GrantRequest
+Where Year(GrantRequestDate)=2015
+Group by Year(GrantRequestDate),GrantTypeKey
+Having Avg(GrantRequestAmount)> 400
+
+--Case is a lot like a Switch in C# or Python
+--it checks for a value, if it matches
+--it will swap it for a different value
+Select DonationKey, DonationAmount, 
+Case Month(DonationDate)
+When 1 then 'January'
+when 2 then 'February'
+when 3 then 'March'
+when 4 then 'April'
+when 8 then 'August'
+when 9 then 'September'
+end as [Month]
+From donation
+
+--Format lets you format numeric types as characters
+--This one shows the Donation amount as currency
+--# is a optional digit, 0 required
+Select Format(DonationAmount, '$#,##0.00') from Donation
+
+Select * from Contact
+--substring takes 3 arguments, the character field or string
+--you are selecting from, the starting character and the 
+--number of characters you want to return
+Select '(' + substring(ContactNumber,1,3) + ')' 
++ substring(ContactNumber,4,3) + '-' 
++ substring(ContactNumber,7,4) Phone
+from Contact
+
+Select format(Cast(ContactNumber as bigint),'(000)000-0000') Phone
+From Contact
+
+
+--system views are useful for returning system information
+Select name from sys.Databases
+Select * from sys.Databases
+Select name from sys.Tables
+Select * from sys.Tables
+
+Select * from sys.all_columns where object_id=373576369
+
+-->
